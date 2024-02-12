@@ -1,2 +1,2 @@
 # FiftyOneActiveLearning
-A framework for active learning based on the fiftyone library
+A demo framework for active learning based on the fiftyone library
