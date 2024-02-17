@@ -1,0 +1,21 @@
+
+model path: "yolov8s.pt"
+
+dataset path: "C:/Users/Zsombor/fiftyone/bdd100k"
+
+dataset type: "bdd100k"
+#supported types are: bdd100k, yolov5, coco
+
+dataset name: "bdd_set"
+
+number of starting samples: 100
+
+max samples: 1000
+
+number of samples to query: 25
+
+iterations: 25
+
+sampling strategy: "min_samples"
+
+scoring function: "average_confidence"
