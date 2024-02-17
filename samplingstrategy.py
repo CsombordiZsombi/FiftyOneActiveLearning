@@ -139,3 +139,21 @@ def k_means(
         samples_to_query.extend(query_from_cluster)
 
     return samples_to_query
+
+
+def get_sampling_strategy_by_name(name):
+    """
+    Returns a sampling strategy by name. If no match found, raises a ValueError
+    :param name: The name of the sampling strategy
+    :return: a function
+    """
+    match name:
+        case "k_means":
+            return k_means
+        case "max_samples":
+            return max_samples
+        case "min_samples":
+            return min_samples
+        case _:
+            raise ValueError(f"No such sampling strategy: {name}")
+

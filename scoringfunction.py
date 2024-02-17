@@ -94,3 +94,22 @@ def uniqueness_score(pool,
     :return:
     """
     fob.compute_uniqueness(pool, uniqueness_field=score_tag)
+
+
+def get_scoring_function_by_name(name):
+    """
+    Returns the matching scoring function for the given name, or raise ValueError if no matching found
+    :param name: The name of the scoring function
+    :return: a function
+    """
+    match name:
+        case "uniqueness_score":
+            return uniqueness_score
+        case "most_confident":
+            return most_confident
+        case "average_confidence":
+            return average_confidence
+        case "least_confident":
+            return least_confident
+        case _:
+            raise ValueError(f"No scoring function: {name}")

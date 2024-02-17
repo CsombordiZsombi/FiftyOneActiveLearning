@@ -76,6 +76,7 @@ def load_yolov5_format(dataset_name, dir_path, max_samples=None, **kwargs):
     https://docs.voxel51.com/user_guide/dataset_creation/datasets.html#yolov5dataset-import
     :param dataset_name: The name of the dataset
     :param dir_path: The path of the source files
+    :param max_samples:
     :param kwargs:
     :return: A fiftyone dataset
     """
@@ -103,7 +104,7 @@ def load_yolov5_format(dataset_name, dir_path, max_samples=None, **kwargs):
     return dataset
 
 
-def load_bbd100k(dataset_name, dir_path, max_samples=None):
+def load_bbd100k(dataset_name, dir_path, max_samples=None, **kwargs):
     """
     Loads the bdd100k dataset from fiftyone-zoo.
     It will automatically download the dataset if it's not downloaded yet.
@@ -131,7 +132,7 @@ def load_bbd100k(dataset_name, dir_path, max_samples=None):
     return dataset
 
 
-def load_coco_format(dataset_name, dir_path, max_samples=None, splits=None, val_tag=None):
+def load_coco_format(dataset_name, dir_path, max_samples=None, splits=None, val_tag=None, **kwargs):
     """
     Loads a Coco Detection type dataset.
     More info on the data structure: https://docs.voxel51.com/user_guide/dataset_creation/datasets.html#cocodetectiondataset-import
@@ -165,3 +166,28 @@ def load_coco_format(dataset_name, dir_path, max_samples=None, splits=None, val_
                   val_tag=val_tag)
 
     return dataset
+
+
+def load_dataset(dataset_name, dir_path, dataset_type, max_samples=None, val_tag=None):
+    """
+    Loads a dataset. If dataset type is not valid, it will raise a ValueError
+    :param dataset_name: name of the dataset
+    :param dir_path: path to the directory containing the dataset
+    :param dataset_type: type of the dataset
+    :param max_samples: maximum number of samples to load
+    :param val_tag: the tag identifying the validation subset
+    :return: a fiftyone dataset
+    """
+    if fo.dataset_exists(dataset_name):
+        print("Dataset already exist")
+        return fo.load_dataset(dataset_name)
+    match dataset_type:
+        case "bdd100k":
+            return load_bbd100k(dataset_name=dataset_name, dir_path=dir_path, max_samples=max_samples)
+        case "yolov5":
+            return load_yolov5_format(dataset_name=dataset_name, dir_path=dir_path, max_samples=max_samples)
+        case "coco":
+            return load_coco_format(dataset_name=dataset_name, dir_path=dir_path, max_samples=max_samples,
+                                    val_tag=val_tag)
+        case _:
+            raise ValueError(f"Invalid dataset type {dataset_type}")
